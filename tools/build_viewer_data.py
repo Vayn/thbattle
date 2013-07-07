@@ -4,13 +4,15 @@ import sys
 sys.path.append('../src')
 
 import re
+import pyglet
+pyglet.options['shadow_window'] = False
 
 import simplejson as json
 from game import autoenv
 
 autoenv.init('Client')
 
-from gamepack.thb.ui import resource
+sys.modules['gamepack.thb.ui.resource'] = sys.modules['__main__']  # dark art
 
 
 class attrname(object):
@@ -18,7 +20,7 @@ class attrname(object):
         return name
 
 
-resource.resource = attrname()
+resource = attrname()
 
 
 from gamepack.thb.ui.ui_meta import metadata
@@ -138,7 +140,6 @@ for k, v in metadata.iteritems():
         "categories": conv_card_category(k.category),
         "description": to_html(v['description']),
     })
-
 
 
 #  --- Characters ---
